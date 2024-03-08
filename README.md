@@ -1,10 +1,12 @@
-# dripfeed [flags] [commmand [args [...]]]
+# dripfeed
 
 dripfeed is a tool for dividing up a long running or infinite stream
 of data to stdin by slices of time and sending that data to the
 stdin of other processes.
 
-For example lets say you want to count the number of lines coming
+# simple usage
+
+Lets say you want to count the number of lines coming
 into a log file every 30 seconds in perpetuity. The problem with
 simply running `tail -F access_log | wc -l` is that the wc process
 will wait infinitely long before yielding results. But dripfeed can
@@ -45,6 +47,8 @@ that you will do something with the stdout stream from dripfeed
 itself. This mode is good for summary logging, or responding to
 changes in a stream of data programmatically.
 
+# advanced usage
+
 Sometimes, however, you need to process the output generated in
 discreet chunks and not as a stream. To accomplish this we have the
 -exec flag. For example if we run:
@@ -81,6 +85,8 @@ tail -F access_log | dripfeed -exec 'agrind {query}' -window 10s filterscript
 It is _important_ that the command being run by -exec detects that stdin
 has been closed and self terminates. Otherwise you will end up with an
 infinitely growing number of processes hanging around for no reason.
+
+# invoking
 
 ```
 Usage of dripfeed:
